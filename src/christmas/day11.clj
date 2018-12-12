@@ -3,11 +3,6 @@
 (defn digit [number]
 	(- (quot number 100)
 	   (* 10 (quot number 1000))))
-
-(defn sqare-fn [func start end]
-	(let [length (range start (inc end))]
-		(map func (cycle length) 
-				  (mapcat #(take (- (inc end) start) (repeat %)) length))))
 	
 (defn power [[x y] grid]
 	(let [rack-id (+ 10 x)]
@@ -24,9 +19,10 @@
 	(map #(powered-row % grid) (range 1 301)))
 
 (defn square-power [[column row] size board]
-	(->> (map #(take size (drop (dec column) %)) (take size (drop (dec row) board)))
-		 (apply concat)
-		 (apply +)))
+	(->> (map #(take size (drop (dec column) %)) 
+			   (take size (drop (dec row) board)))
+		 (apply concat) ;mapcat ^
+		 (apply +))) ;give out as (#(vector % [column row]))
 
 (defn figure-out-max [size row some-map]
 	(->> (apply max (keys some-map))
@@ -34,18 +30,16 @@
 
 (defn row-max [row size board]
 	(->> (map #(square-power [% row] size board) (range 0 (- 301 size)))
-         (#(interleave % (range)))
-         (apply assoc {})
-		 (figure-out-max size row)))
+         (#(interleave % (range))) ; drop
+         (apply assoc {}) ; drop
+		 (figure-out-max size row))) ; instead sort-by first >
 
 (defn size-max [size board]
 	(->> (map #(row-max % size board) (range 0 (- 301 size)))
 		 (sort-by first >)
-		 first
-	))
+		 first))
 
 (defn top [grid]
 	(->> (map #(size-max % (powered-board grid)) (range 12 300))
 		 (sort-by first >)
-		 first
-	))
+		 first))

@@ -12,7 +12,7 @@
 (expect 9 (chr/digit 949))
 (expect 0 (chr/digit 56))
 
-(expect #{[1 1][1 2][2 1][2 2]} (into #{} (chr/sqare-fn vector 1 2)))
+;(expect #{[1 1][1 2][2 1][2 2]} (into #{} (chr/sqare-fn vector 1 2)))
 
 ;(expect -5 (get (chr/powered-board 57) [122 79]))
 

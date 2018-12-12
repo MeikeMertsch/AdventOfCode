@@ -8,7 +8,6 @@
 	(->> (partition 5 1 (init-pots pots))
 		 (map #(get instructions % \space))))
 	
-
 (defn day12 [init-pots instructions it]
 	(reduce (fn [[pots _] idx] (vector (re-pot pots instructions idx) idx)) 
 		[init-pots 0] (range 0 it)))
@@ -19,13 +18,7 @@
 		 (map first)
 		 (apply +)))
 
-
 (defn count-pots [init-pots instructions gen]
-	(->> (day12 init-pots instructions gen)
-		 ;last
-		 first
-		 (#(zipmap (range (- 0 gen) (+ gen 1000)) %))
-		 (remove #(= \space (last %)))
-		 (map first)
-		 (apply +)))
-	
+	(-> (day12 init-pots instructions gen)
+		first
+		(do-math gen)))

@@ -1,5 +1,7 @@
 (ns christmas.day10)
 
+; also on https://gist.github.com/MeikeMertsch/83819cc9fd40c47ca26c4bbc0b870d94
+
 (defn board [file]
 	(let [columns (map first file)
 		  rows (map last file)]

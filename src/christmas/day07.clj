@@ -2,6 +2,7 @@
   (:require [christmas.core :refer :all]
             [clojure.string :as str]))
 
+; all revisions of my code on this one on https://gist.github.com/MeikeMertsch/6a14074aa336f4d377c5d0fb6a01ca2b
 
 (defn find-candidates [remaining restrictions]
 	(->> (map last restrictions)

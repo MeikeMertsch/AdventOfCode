@@ -1,5 +1,7 @@
 (ns christmas.day09)
 
+; all 7 (!) revisions of my code on this one on https://gist.github.com/MeikeMertsch/f7e5c76929bf0036850110ca79c63a0e
+
 (defn point-calculation [points player number old-marble]
 	(assoc points player (+ number
 							old-marble

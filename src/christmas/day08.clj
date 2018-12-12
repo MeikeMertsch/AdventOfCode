@@ -1,5 +1,6 @@
 (ns christmas.day08)
 
+; all revisions of my code on this one on https://gist.github.com/MeikeMertsch/f1f3a1bfc157c3ed3a6cfcb1dec0ff57
 
 (defn deal-with-0 [input]
 	(let [candidate (last (split-with #(not= 0 %) input))]
