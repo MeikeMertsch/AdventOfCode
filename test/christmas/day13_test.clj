@@ -50,20 +50,20 @@
 	 [9 3] {:spd [0 1] :pos [9 3] :dir :right}}
 	(chr/tick [2 0] carts-init {[2 0] "+"}))
 
-(expect (assoc carts-init :crash [9 3]) 
+(expect {[2 0] {:spd [1 0] :pos [2 0] :dir :right}}
 	(chr/check-crash {:spd [0 1] :pos [9 3] :dir :right} carts-init))
 
-(expect carts-init 
+#_(expect carts-init 
 	(chr/check-crash {:spd [0 1] :pos [3 3] :dir :right} carts-init))
 
-(expect [7 3] (chr/something file))
+;(expect [7 3] (chr/something file))
 
 (expect [[2 1][1 2][4 4][9 4][4 6][9 6]] 
 	(chr/order-positions [[9 6][9 4][4 6][4 4][2 1][1 2]]))
 
 (expect [[3 0][9 4]] (keys (chr/one-tick [[2 0][9 3]] carts-init rules)))
 
-(expect [117 62] (chr/something realFile))
+;(expect [69 67] (chr/something realFile))
 
 
 

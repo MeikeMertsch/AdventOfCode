@@ -65,15 +65,14 @@
 (defn check-crash [moved-cart carts]
 	(let [pos (:pos moved-cart)]
 	(if (nil? (carts pos))
-		carts
-		(assoc carts :crash pos))))
+		(assoc carts (:pos moved-cart) moved-cart)
+		(dissoc carts (:pos moved-cart)))))
 
 (defn tick [cart carts rules]
 	(let [rule (rules cart)
 		  reduced-carts (dissoc carts cart)
 		  moved-cart (move cart carts rule)]
-		(->> (check-crash moved-cart reduced-carts)
-			 (#(assoc % (:pos moved-cart) moved-cart)))))
+		(check-crash moved-cart reduced-carts)))
 
 (defn order-positions [positions]
 ;	(println positions)
@@ -86,18 +85,23 @@
 	))
 
 (defn something [input]
-	(let [carts (get-carts input)
+	(let [carts-init (get-carts input)
 		  rules (get-rules input)]
-		(->> (reductions #(vector (one-tick (order-positions (keys (first %1)))
-											(first %1)
+		(->> (reductions (fn [[carts _] _] (vector (one-tick (order-positions (keys carts))
+											carts
 											rules)
-								  %2) 
-						  [carts -1] 
+								  (count carts))) 
+						  [carts-init 1000] 
 						  (range))
-		 
-			 (drop-while #(nil? (:crash (first %))))
-			 ffirst
-			 :crash
+		(take-while #(< 1 (second %)))
+		last
+		ffirst
+		first
+
+		;     (drop-while #(< 1 (count (first %))))
+			; (drop-while #(nil? (:crash (first %))))
+			; ffirst
+			; :crash
 
 	)))
 
