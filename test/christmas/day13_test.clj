@@ -5,8 +5,7 @@
 
 (defn get-file [file-name]
 	(->> (slurp file-name)
-			   str/split-lines
-			   (map #(str/split % (re-pattern " => ")))))
+			    str/split-lines))
 
 ;(def file (get-file "resources/Input13"))
 ;(def realFile (get-file "resources/Input13real"))
