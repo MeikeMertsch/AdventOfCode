@@ -3,7 +3,7 @@
   		  	[expectations :refer :all]
             [christmas.core :refer :all]
             [clojure.string :as str]))
-
+(comment
 (defn parse [my_string]
 	(Integer/parseInt my_string))
 
@@ -12,9 +12,9 @@
 		(str/split #" ")
 		(#(map parse %))))
 
-(def file (getFile "resources/Input08"))
-(def fileb (getFile "resources/Input08b"))  ; I invented that one
-(def realFile (getFile "resources/Input08real"))
+(def file (getFile "resources/day06-10/Input08"))
+(def fileb (getFile "resources/day06-10/Input08b"))  ; I invented that one
+(def realFile (getFile "resources/day06-10/Input08real"))
 
 
 (expect 66 (chr/exercise08b file))
@@ -55,3 +55,4 @@
 (expect [2 1 [3 1 [] [] [] 2]] (chr/check [2 1 3 1 [] [] [] 2]))
 
 (expect [2 1 [3 3 [0 1 2] [0 3 7 8 9] [1 1 [0 2 6 12] 1] 4 1 2] [1 3 [0 1 17] 1 4 4] 2] (last (reduce chr/build-tree [] fileb)))
+)

@@ -2,13 +2,13 @@
  (:require [christmas.day13 :as chr]
  		 	[expectations :refer :all]
  		 	[clojure.string :as str]))
-
+(comment
 (defn get-file [file-name]
 	(->> (slurp file-name)
 		 str/split-lines))
 
-(def file (get-file "resources/Input13"))
-(def realFile (get-file "resources/Input13real"))
+(def file (get-file "resources/day11-15/Input13"))
+(def realFile (get-file "resources/day11-15/Input13real"))
 
 (def carts-init {[9 3] {:spd [0 1] :pos [9 3] :dir :right}
 				 [2 0] {:spd [1 0] :pos [2 0] :dir :right}})
@@ -69,7 +69,7 @@
 
 
 
-
+)
 
 
 

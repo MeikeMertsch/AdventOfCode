@@ -3,7 +3,7 @@
   		  	[expectations :refer :all]
             [christmas.core :refer :all]
             [clojure.string :as str]))
-
+(comment
 (defn parse [stri]
 	(int (bigint stri)))
 
@@ -13,8 +13,8 @@
 		 (map #(str/split % #","))
 		 (map #(map (comp parse str/trim) %))))
 
-(def realFile (getFile "resources/Input06real"))
-(def file (getFile "resources/Input06"))
+(def realFile (getFile "resources/day06-10/Input06real"))
+(def file (getFile "resources/day06-10/Input06"))
 
 
 (expect 2 (chr/cab [1 1] [2 2]))
@@ -36,3 +36,4 @@
 (expect 16 (chr/exercise06b file 32))
 ;(expect-focused 16 (chr/exercise06b realFile 10000)) ; 61s
 (expect 30 (chr/calcalldistances [4 3] file))
+)

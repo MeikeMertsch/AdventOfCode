@@ -72,16 +72,10 @@
 	(->> (reductions (fn [[recipes pos1 pos2] _] (tick-2 recipes pos1 pos2)) [[3 7 1 0] 0 1] (range))
 		 (map first)
 		 (map #(last-index input %))
-
-		 ;(map #(apply str %))
-		 ;(map #(str/last-index-of % input))
 		 (drop-while nil?)
 		 first
 ;		 (take 10)
 		 ))
-		 ;(map #(str/last-index-of % input))
-		 ;
-		 ;first))
 
 
 

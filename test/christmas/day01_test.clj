@@ -3,8 +3,8 @@
   		  	[expectations :refer :all]
             [christmas.core :refer :all]
             [clojure.string :as str]))
-
-(def file (slurp "resources/Input01"))
+(comment
+(def file (slurp "resources/day01-05/Input01"))
 
 (expect '(12 -13 17 17 -10 6 13 13 -9 13 -20) (chr/file_as_Ints file))
 
@@ -25,3 +25,4 @@
 (expect 14 (chr/exercise01b "+7\n+7\n-2\n-7\n-4"))
 
 ;(expect 549 (chr/exercise01b chr/realFile))
+)

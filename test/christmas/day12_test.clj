@@ -2,7 +2,7 @@
  (:require [christmas.day12 :as chr]
  		 	[expectations :refer :all]
  		 	[clojure.string :as str]))
-
+(comment
 (defn dot [string]
 	(str/replace string "." " "))
 
@@ -14,8 +14,8 @@
 			   (mapcat #(vector (seq (first %)) (first (last %))))
 			   (apply assoc {})))
 
-(def file (get-file "resources/Input12"))
-(def realFile (get-file "resources/Input12real"))
+(def file (get-file "resources/day11-15/Input12"))
+(def realFile (get-file "resources/day11-15/Input12real"))
 
 (def init (dot "#..#.#..##......###...###"))
 (def initReal (dot "##.###.......#..#.##..#####...#...#######....##.##.##.##..#.#.##########...##.##..##.##...####..####"))
@@ -55,3 +55,4 @@
 (expect 1150000000457 (+ 3010 (* 23 (- 50000000000 111))))
 ;(expect "result" (- 3033 3010))
 
+)

@@ -3,7 +3,7 @@
   		  	[expectations :refer :all]
             [christmas.core :refer :all]
             [clojure.string :as str]))
-
+(comment
 (defn parse [stri]
 	(int (bigint stri)))
 
@@ -13,8 +13,8 @@
 		 (map #(str/split % #","))
 		 (map #(map (comp parse str/trim) %))))
 
-(def realFile (getFile "resources/Input06real"))
-(def file (getFile "resources/Input06"))
+(def realFile (getFile "resources/day06-10/Input06real"))
+(def file (getFile "resources/day06-10/Input06"))
 
 
 (expect '((1 1) (1 6) (8 3) (3 4) (5 5) (8 9)) file)
@@ -42,3 +42,4 @@
 
 (expect [[3 4][5 5]] (chr/whoIsInMiddle file))
 ;(expect "" (chr/whoIsInMiddle realFile))
+)

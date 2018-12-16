@@ -3,8 +3,8 @@
   		  	[expectations :refer :all]
             [christmas.core :refer :all]
             [clojure.string :as str]))
-
-(def realFile (->> (slurp "resources/Input02real")
+(comment
+(def realFile (->> (slurp "resources/day01-05/Input02real")
 		 		   (clojure.string/split-lines)))
 
 (def fileA '("abcdef" "bababc" "abbcde" "abcccd" "aabcdd" "abcdee" "ababab"))
@@ -16,3 +16,4 @@
 
 (expect "fgij" (chr/exercise02b fileB))
 ;(expect "ighfbyijnoumxjlxevacpwqtr" (chr/exercise02b realFile))
+)

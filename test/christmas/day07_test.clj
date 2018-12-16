@@ -3,7 +3,7 @@
   		  	[expectations :refer :all]
             [christmas.core :refer :all]
             [clojure.string :as str]))
-
+(comment
 (defn getFile [fileName]
 	(->> (slurp fileName)
 		 (clojure.string/split-lines)
@@ -13,8 +13,8 @@
 
 (def allofthem ["A" "B" "C" "D" "E" "F"])
 (def realAllofthem ["A" "B" "C" "D" "E" "F" "G" "H" "I" "J" "K" "L" "M" "N" "O" "P" "Q" "R" "S" "T" "U" "V" "W" "X" "Y" "Z"])
-(def realFile (getFile "resources/Input07real"))
-(def file (getFile "resources/Input07"))
+(def realFile (getFile "resources/day06-10/Input07real"))
+(def file (getFile "resources/day06-10/Input07"))
 
 (expect ["A" "B" "D" "E" "H" "I" "J" "K" "L" "N" "O" "P" "Q" "R" "S" "T" "U" "V" "W" "X" "Y" "Z"]
  (sort (vec (into #{} (map last realFile)))))
@@ -58,4 +58,4 @@
 
 
 
-
+)

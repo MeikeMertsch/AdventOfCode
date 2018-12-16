@@ -5,7 +5,7 @@
             [clj-time.format :as f]))
 
 (def file04
-	(->> (slurp "resources/Input04real")
+	(->> (slurp "resources/day01-05/Input04real")
 		 (clojure.string/split-lines)
 		 sort
 		 (map #(str/split % #"] "))))

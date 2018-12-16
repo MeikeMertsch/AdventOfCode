@@ -2,7 +2,7 @@
  (:require [christmas.day14 :as chr]
  		 	[expectations :refer :all]
  		 	[clojure.string :as str]))
-
+(comment
 (def init "37")
 
 (expect ["371010" 4 3] (chr/tick "3710" 0 1))
@@ -32,3 +32,4 @@
 
 (expect 5 (chr/last-index [0 1 2 3] [9 4 5 4 3 0 1 2 3 4]))
 (expect 4 (chr/last-index [0 1 2] [9 4 4 3 0 1 2]))
+)

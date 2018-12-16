@@ -2,7 +2,7 @@
  (:require [christmas.day10 :as chr]
  		 	[expectations :refer :all]
  		 	[clojure.string :as str]))
-
+(comment
 (defn parse-int [a-str]
 	(Integer/parseInt (str/trim a-str)))
 
@@ -19,7 +19,7 @@
 		 ))
 		 
 
-(def file (getFile "resources/Input10"))
+(def file (getFile "resources/day06-10/Input10"))
 ;(def realFile (getFile "resources/Input10real"))
 
 (expect [3 2] (chr/move-star 4 [[7 6][-1 -1]]))
@@ -54,4 +54,4 @@
 ;(expect nil (chr/paint-board (keys stars)))
 
 
-)
+))

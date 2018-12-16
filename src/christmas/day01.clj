@@ -2,7 +2,7 @@
   (:require [christmas.core :refer :all]
             [clojure.string :as str]))
 
-(def realFile (slurp "resources/Input01real"))
+(def realFile (slurp "resources/day01-05/Input01real"))
 
 (defn file_as_Ints [input]
 	(->> (clojure.string/split-lines input)

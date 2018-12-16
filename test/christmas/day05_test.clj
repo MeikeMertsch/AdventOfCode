@@ -3,8 +3,8 @@
   		  	[expectations :refer :all]
             [christmas.core :refer :all]
             [clojure.string :as str]))
-
-(def realFile (slurp "resources/Input05real"))
+(comment
+(def realFile (slurp "resources/day01-05/Input05real"))
 
 (expect true (chr/match \a \A))
 (expect false (chr/match \A \A))
@@ -29,3 +29,4 @@
 (expect #"aA" (re-pattern "aA"))
 (expect "[Aa]" (str "[" "A" (chr/cas "A") "]"))
 (expect "dbcCCBcCcD" (str/replace "dabAcCaCBAcCcaDA" (re-pattern "[Aa]") ""))
+)

@@ -3,7 +3,7 @@
             [clojure.string :as str]))
 
 (def file03
-	(->> (slurp "resources/Input03real")
+	(->> (slurp "resources/day01-05/Input03real")
 		 (clojure.string/split-lines)))
 
 

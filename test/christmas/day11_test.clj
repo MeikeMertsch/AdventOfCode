@@ -3,7 +3,7 @@
  		 	[expectations :refer :all]
  		 	[clojure.string :as str]))
 
-
+(comment
 (expect 4 (chr/power [3 5] 8))
 (expect -5 (chr/power [122 79] 57))
 (expect 0 (chr/power [217 196] 39))
@@ -62,3 +62,4 @@
 
 ;(expect-focused [3 [33 45]] (chr/largest-cell-2 18 3))
 
+)
