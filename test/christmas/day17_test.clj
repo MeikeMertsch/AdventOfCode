@@ -72,7 +72,7 @@
 
 ;(expect-focused 57 (chr/day17a file))
 ;(expect 0 (spit-board "resources/day16-20/Output17real" (chr/flood-field real-file )))
-(expect 0 (chr/day17a real-file ))
+;(expect 0 (chr/day17a real-file ))
 
 ;(expect-focused "" (print-board (chr/flood-field mini-file)))
 
