@@ -52,7 +52,7 @@
 (expect [37 31 (* 37 31)] (chr/day18a 10 init-file))
 ;(expect [915 526 481290] (chr/day18a 10 real-file))
 
-(expect [572 316 180752] (chr/day18b real-file))
+;(expect [572 316 180752] (chr/day18b real-file))
 (expect 0 (rem (- 1000000000 1000) 28))
 
 ;1000th it [572 316 180752] 587 323

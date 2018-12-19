@@ -12,19 +12,22 @@
 		(#(mapv parse-int %))))
 
 (def file "resources/day16-20/Input17")
+(def fe-file "resources/day16-20/Input17failingExample")
+(def mini-file "resources/day16-20/Input17failingMiniExample")
 (def real-file "resources/day16-20/Input17real")
 
 
 (defn print-board [board]
 	(chr/act-on-board board #(println (apply str %))))
 
-(defn spit-board [board]
-	(chr/act-on-board board #(spit "resources/day16-20/Output17real" (str (apply str %) "\n") :append true)))
+(defn spit-board [file board]
+	(chr/act-on-board board #(spit file (str (apply str %) "\n") :append true)))
 
 ;(expect "" file-board)
 ;(expect "" (print-board file-board))
-;(expect-focused "" (spit-board (chr/get-board real-file)))
+;(expect-focused "" (spit-board "resources/day16-20/Output17real" (chr/get-board real-file)))
 (def file-board (chr/get-board file))
+(def example-board (chr/get-board file))
 
 (expect 7 (chr/fall-target [500 0] file-board))
 (expect 7 (chr/fall-target [500 5] {:ground {[500 13] "#" [500 1] "#" [500 7] "#" }}))
@@ -66,8 +69,13 @@
 (expect nil (chr/has-bottom [502 2] file-board))
 
 ;(expect "" (print-board (chr/flood-field file)))
-(expect 57 (chr/day17a file))
-;(expect 0 (spit-board (chr/flood-field real-file )))
+
+;(expect-focused 57 (chr/day17a file))
+;(expect 0 (spit-board "resources/day16-20/Output17real" (chr/flood-field real-file )))
+(expect 0 (chr/day17a real-file ))
+
+;(expect-focused "" (print-board (chr/flood-field mini-file)))
+
 ;(expect 7 (chr/left-target [500 5] {:ground {[500 13] "#" [500 1] "#" [500 7] "#" }}))
 ;(expect nil (chr/left-target [500 0] {:ground {[200 6] "#" [300 7] "#" [400 8] "#" }}))
 ;(expect 8 (chr/left-target [500 0] {:ground {[200 6] "#" [500 8] "#" [400 7] "#" }}))

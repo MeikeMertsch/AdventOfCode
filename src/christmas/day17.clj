@@ -30,7 +30,7 @@
 		  coords (keys board)
 		  xcoords (map first coords)
 		  x1 (apply min xcoords)
-		  x2 (apply max xcoords)
+		  x2 (inc (inc (apply max xcoords)))
 		  y2 (inc (apply max (map last coords)))]
 		  {:ground board
 		   :x1 x1
@@ -156,18 +156,24 @@
 						[l-flow r-flow]
 						deactivated))))
 
+(defn hit-water [pos board]
+	(update-in board [:active] disj pos))
+
 (defn tick-active [board]
+(time
 	(let [[x y :as pos] (first (:active board))
 		  beneath (get (:ground board) [x (inc y)])]
+(println pos (:active board) beneath)
 		(cond 
 			(nil? beneath) (fall pos board)
-			(#{"#" "|" "~"} beneath) (spread pos board))))
+			(#{"#" "~"} beneath) (spread pos board)
+			:rest (hit-water pos board)))))
 
 
 (defn flood-field [file]
 	(->> (get-board file)
 		 (iterate tick-active)
-		 ;(drop 150)
+;		 (drop 300)	
 		 (drop-while #(not-empty (:active %)))
 		 first
 		)
@@ -176,7 +182,7 @@
 (defn day17a [file]
 	(->> (flood-field file)
 		 :ground
-		 (filter #(#{"|" "~"} (last %)))
+		 (filter #(#{"~"} (last %)))
 		 count
 		 ))
 
