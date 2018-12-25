@@ -7,11 +7,28 @@
 (defn parse-int [thing]
 	(Integer/parseInt thing))
 
-(defn handle-row [my-string]
-	(-> (re-seq #"\d+" my-string)
-		(#(mapv parse-int %))))
 
-;(def file "resources/day16-20/Input17")
-;(def fe-file "resources/day16-20/Input17failingExample")
-;(def mini-file "resources/day16-20/Input17failingMiniExample")
-;(def real-file "resources/day16-20/Input17real")
+(defn get-file [file]
+	(->> (slurp file)
+		 str/split-lines
+		 (map #(str/split % #" "))
+		 (map chr/handle-row)))
+
+(def file (get-file "resources/day16-20/Input19"))
+(def real-file (get-file "resources/day16-20/Input19real"))
+(def input 0)
+(def real-input 5)
+
+(expect [0, 5, 0, 0, 0, 0] (chr/exec [0, 0, 0, 0, 0, 0] (first file)))
+(expect [1, 5, 6, 0, 0, 0] (chr/exec [1, 5, 0, 0, 0, 0] (second file)))
+
+
+;(expect-focused [0, 5, 0, 0, 0, 0] (chr/day19 input file))
+;(expect-focused [0, 5, 0, 0, 0, 0] (chr/day19 real-input real-file))
+
+;[1872 1 1030 1031 1031 257]
+;ip=0 [0, 0, 0, 0, 0, 0] seti 5 0 1 [0, 5, 0, 0, 0, 0]
+;ip=1 [1, 5, 0, 0, 0, 0] seti 6 0 2 [1, 5, 6, 0, 0, 0]
+;ip=2 [2, 5, 6, 0, 0, 0] addi 0 1 0 [3, 5, 6, 0, 0, 0]
+;ip=4 [4, 5, 6, 0, 0, 0] setr 1 0 0 [5, 5, 6, 0, 0, 0]
+;ip=6 [6, 5, 6, 0, 0, 0] seti 9 0 5 [6, 5, 6, 0, 0, 9]

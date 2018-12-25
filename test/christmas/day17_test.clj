@@ -3,6 +3,7 @@
   		   [expectations :refer :all]
   		   [clojure.string :as str]))
 
+(comment 
 
 (defn parse-int [thing]
 	(Integer/parseInt thing))
@@ -81,7 +82,7 @@
 ;(expect 8 (chr/left-target [500 0] {:ground {[200 6] "#" [500 8] "#" [400 7] "#" }}))
 
 
-
+)
 
 
 
