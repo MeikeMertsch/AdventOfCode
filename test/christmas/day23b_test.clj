@@ -3,7 +3,7 @@
   		   [expectations :refer :all]
   		   [clojure.string :as str]))
 
-
+(comment
 (defn parse-int [thing]
 	(Integer/parseInt thing))
 
@@ -66,7 +66,7 @@
 
 (expect [[7 7 7][7 7 1][7 1 7][7 1 1][1 7 7][1 7 1][1 1 7][1 1 1]] 
 	(chr/new-middles 3 [4 4 4]))
-
+)
 ;(expect "" (chr/break-into-subcubes [[40964492 124854657 60107041] 740473991]))
 
 ;(expect "" (chr/day23b file-b))
