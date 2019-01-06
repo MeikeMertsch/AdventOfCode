@@ -26,4 +26,7 @@
 	(create-file (create-string f-path year day) (create-string f-header year day))
 	(create-file (create-string f-test-path year day) (create-string f-test-header year day)))
 
+(defn parse-int [string]
+	(Integer/parseInt string))
+
 ;(expect nil (prepare "15" "06"))
