@@ -3,7 +3,7 @@
   		  	[expectations :refer :all]
             [clojure.string :as str]))
 
-
+(comment
 (defn parse-int [thing]
 	(Integer/parseInt thing))
 
@@ -24,3 +24,4 @@
 (expect (+ 4 10) (chr/ribbon [1 1 10]))
 
 (expect 3737498 (chr/day02b file))
+)
