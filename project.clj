@@ -7,7 +7,8 @@
   				 [expectations "2.2.0-rc3"]          
   				 [clj-time "0.15.0"]
            [com.rpl/specter "1.1.2"]
-           [cheshire "5.8.1"]]
+           [cheshire "5.8.1"]
+           [digest "1.4.8"]]
   :main ^:skip-aot christmas.core
   :target-path "target/%s"
   :profiles {:uberjar {:aot :all}})
