@@ -29,4 +29,4 @@
 (defn parse-int [string]
 	(Integer/parseInt string))
 
-;(expect nil (prepare "15" "06"))
+;(expect nil (prepare "15" "08"))
