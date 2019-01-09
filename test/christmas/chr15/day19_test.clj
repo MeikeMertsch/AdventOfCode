@@ -3,4 +3,5 @@
   		  	[expectations :refer :all]
             [clojure.string :as str]))
 
-(def file (slurp "resources/christmas/chr15/day19real"))
+(def input-1 (slurp "resources/christmas/chr15/day19real_1"))
+(def input-2 (slurp "resources/christmas/chr15/day19real_2"))
