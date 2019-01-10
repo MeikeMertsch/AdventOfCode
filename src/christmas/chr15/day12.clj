@@ -1,19 +1,23 @@
 (ns christmas.chr15.day12
   (:require [clojure.string :as str]
-  			[christmas.tools :as t]))
+  			[christmas.tools :as t]
+  			[cheshire.core :refer :all]))
 
 (def regex #"\{[^\{^\}]*\}")
-(def split-regex #"\[[^\{^\}]*\]")
+(def split-regex #"\[[^\[^\]]*\]")
 
 (defn add-numbers [input]
 	(->> (re-seq #"-*\d+" input)
 		 (map t/parse-int)
 		 (apply +)))
 
+(defn get-rid-of-groups [string]
+	(->> (iterate #(str/replace % split-regex "") string)
+		 (drop-while #(re-find #"\[" %))
+		 first))
+
 (defn value [string]
-	(println string (add-numbers string) (apply str (str/split string split-regex)))
-	(->> (str/split string split-regex)
-		 (apply str)
+	(->> (get-rid-of-groups string)
 		 (#(if (re-find #"red" %)
 				0 
 				(add-numbers string)))))
