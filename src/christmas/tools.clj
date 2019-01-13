@@ -31,4 +31,8 @@
 (defn parse-int [string]
 	(Integer/parseInt string))
 
+
+;(expect "" )
+;(expect "" (map (partial prepare 16) (map (partial str "0") (range 1 10))))
+;(expect "" (map (partial prepare 16) (range 10 26)))
 ;(expect nil (prepare "16" "25"))
