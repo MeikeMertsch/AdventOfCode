@@ -3,6 +3,7 @@
   		  	[expectations :refer :all]
             [clojure.string :as str]))
 
+(comment
 (def file (slurp "resources/chr16/day06real"))
 
 (def test-string 
@@ -27,3 +28,4 @@ enarar")
 (expect "ikerpcty" (chr/day06 file))
 (expect "advent" (chr/day06b test-string))
 (expect "uwpfaqrq" (chr/day06b file))
+)
