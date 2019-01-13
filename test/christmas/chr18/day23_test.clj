@@ -3,7 +3,7 @@
   		   [expectations :refer :all]
   		   [clojure.string :as str]))
 
-
+(comment
 (defn parse-int [thing]
 	(Integer/parseInt thing))
 
@@ -101,7 +101,7 @@
 ;(expect "" (chr/get-all-overlaps [[] [(first real-file) (second real-file)]]))
 
 
-
+)
 
 
 

@@ -13,9 +13,9 @@
 		 (map #(map parse %))))
 
 
-(def file (getFile "resources/chr17/Input02"))
-(def file-b (getFile "resources/chr17/Input02b"))
-(def realFile (getFile "resources/chr17/Input02real"))
+(def file (getFile "resources/chr17/day02"))
+(def file-b (getFile "resources/chr17/day02b"))
+(def realFile (getFile "resources/chr17/day02real"))
 
 (expect [[5 1 9 5] [7 5 3] [2 4 6 8]] file)
 

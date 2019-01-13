@@ -8,7 +8,7 @@
 		 str/split-lines
 		 (map #(str/split % #" "))))
 
-(def file (get-file "resources/chr17/Input04real"))
+(def file (get-file "resources/chr17/day04real"))
 
 (expect 119 (chr/day04 file))
 )

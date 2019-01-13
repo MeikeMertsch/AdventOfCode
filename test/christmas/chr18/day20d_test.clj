@@ -3,6 +3,7 @@
   		   [expectations :refer :all]
   		   [clojure.string :as str]))
 
+(comment
 (def file (slurp "resources/chr18/Input20real"))
 
 (def ex-3 "^WNE$")
@@ -30,3 +31,4 @@
 ;(expect "" (chr/day20 file)) ;drop 1000 in 1193452 msecs (20 mins) length 2074890
 
 (expect "(AB|A)" (chr/assemble ["A" "B" ""]))
+)

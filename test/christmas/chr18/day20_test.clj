@@ -3,6 +3,7 @@
   		   [expectations :refer :all]
   		   [clojure.string :as str]))
 
+(comment
 (def file (slurp "resources/chr18/Input20real"))
 (def ex-a "^WNE$")
 (def ex-b "^ENWWW(NEEE|SSE(EE|N))$")
@@ -28,3 +29,4 @@
 ;(expect-focused 0 (chr/day20 file))
 
 ;(expect 0 (count (re-seq #"[SWEN]" file))) ; 105 ^ 2
+)

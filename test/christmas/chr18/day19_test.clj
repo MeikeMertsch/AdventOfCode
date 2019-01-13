@@ -3,7 +3,7 @@
   		   [expectations :refer :all]
   		   [clojure.string :as str]))
 
-
+(comment
 (defn parse-int [thing]
 	(Integer/parseInt thing))
 
@@ -32,3 +32,4 @@
 ;ip=2 [2, 5, 6, 0, 0, 0] addi 0 1 0 [3, 5, 6, 0, 0, 0]
 ;ip=4 [4, 5, 6, 0, 0, 0] setr 1 0 0 [5, 5, 6, 0, 0, 0]
 ;ip=6 [6, 5, 6, 0, 0, 0] seti 9 0 5 [6, 5, 6, 0, 0, 9]
+)

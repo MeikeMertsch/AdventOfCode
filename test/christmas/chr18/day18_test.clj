@@ -3,7 +3,7 @@
   		   [expectations :refer :all]
   		   [clojure.string :as str]))
 
-
+(comment
 (defn get-file [file]
 	(->> (slurp file)
 		 (str/split-lines)))
@@ -58,6 +58,6 @@
 ;1000th it [572 316 180752] 587 323
 ;repeat is 28
 
-
+)
 
 

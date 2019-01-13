@@ -3,7 +3,7 @@
   		  	[expectations :refer :all]
             [clojure.string :as str]))
 (comment
-(def file (slurp "resources/chr17/Input01real"))
+(def file (slurp "resources/chr17/day01real"))
 
 (expect 3 (chr/exercise01 "1122"))
 (expect 4 (chr/exercise01 "1111"))

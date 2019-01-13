@@ -3,6 +3,7 @@
   		   [expectations :refer :all]
   		   [clojure.string :as str]))
 
+(comment
 (defn get-file [file]
 	(->> (slurp file)
 		 str/split-lines
@@ -17,3 +18,4 @@
 ;(expect-focused 5310683 (chr/day21b input faster-file))
 
 
+)

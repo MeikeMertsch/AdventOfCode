@@ -14,6 +14,7 @@
 
 (def f-path "src/christmas/chr%s/day%s.clj")
 (def f-test-path "test/christmas/chr%s/day%s_test.clj")
+(def f-res-path "resources/chr%s/day%sreal")
 
 (defn create-string [string year day]
 	(format string year day year day year day))
@@ -24,9 +25,10 @@
 
 (defn prepare [year day]
 	(create-file (create-string f-path year day) (create-string f-header year day))
-	(create-file (create-string f-test-path year day) (create-string f-test-header year day)))
+	(create-file (create-string f-test-path year day) (create-string f-test-header year day))
+	(create-file (create-string f-res-path year day) ""))
 
 (defn parse-int [string]
 	(Integer/parseInt string))
 
-;(expect nil (prepare "17" "25"))
+;(expect nil (prepare "16" "25"))
