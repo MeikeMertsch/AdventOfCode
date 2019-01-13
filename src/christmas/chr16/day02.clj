@@ -40,12 +40,12 @@
 (defn step [start dir]
 	(get-in keypad [start dir] start))
 
-(defn type [start instructions]
+(defn type- [start instructions]
 	(reduce step start instructions))
 
 (defn day02b [input]
 	(->> (str/split-lines input)
-		 (reductions type 5)
+		 (reductions type- 5)
 		 rest
 		 (apply str)))
 		 
