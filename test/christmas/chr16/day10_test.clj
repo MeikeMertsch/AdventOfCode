@@ -3,12 +3,12 @@
   		  	[expectations :refer :all]
             [clojure.string :as str]))
 
-(def t-file (slurp "resources/day10"))
-(def file (slurp "resources/day10real"))
+(def t-file (slurp "resources/chr16/day10"))
+(def file (slurp "resources/chr16/day10real"))
 (def game (chr/parse-file t-file))
 
 
-
+(comment
 
 ;(expect "" t-file )
 ;(expect "" (chr/parse-file t-file))
@@ -26,3 +26,5 @@
 
 (expect {:bots {}, :values {}, :outputs {2 1, 3 2, 5 0}} (chr/play t-file))
 (expect {:bots {}, :values {}, :outputs {2 1, 3 2, 5 0}} (chr/play file))
+
+)
