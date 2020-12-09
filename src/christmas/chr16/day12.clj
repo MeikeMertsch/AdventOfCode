@@ -36,11 +36,5 @@
 (defn process [file c]
     (let [instructions (parse-file file)]
     (->> (iterate (partial thing instructions) [0 0 c 0 0])
-         ;(take 1025)
          (drop-while #(< (last %) (count instructions)))
-         first
-
-
-    )))
-
-
+         first)))

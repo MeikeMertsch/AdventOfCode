@@ -3,4 +3,8 @@
   		  	[expectations :refer :all]
             [clojure.string :as str]))
 
+(comment
 (def file (slurp "resources/chr16/day20real"))
+
+(expect "" (chr/parse-file file))
+)
