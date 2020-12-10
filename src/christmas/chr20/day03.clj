@@ -2,37 +2,48 @@
   (:require [clojure.string :as str]
             [christmas.tools :as t]))
 
-(defn turn [[min max which string]]
-  (vector (t/parse-int min) (t/parse-int max) which string))
 
 (defn parse [filename]
   (->> (slurp filename)
-       (str/split-lines)
-       (map #(re-seq #"[\w|\d]+" %))
-       (map turn)))
+       (str/split-lines)))
 
-(defn filtered [[min max which string]]
-  (vector min max which (count (filter #(= (first which) %) string))))
+(defn positions [length width]
+  (->> (range)
+       rest
+       (take length)
+       (map (partial * 3))
+       (map #(mod % width))))
 
-(defn safe-nth [pos string]
-  (if (< (dec pos) (count string))
-    (nth string (dec pos)) "xx"))
+(defn hit [field]
+  (->> (positions (count field) (count (first field)))
+       (map #(nth %1 %2) field)))
 
-(defn prep [[eins zwei which string]]
-  [(hash-set (safe-nth eins string) (safe-nth zwei string)) (first which)])
-
-(defn day02 [input]
+(defn day03 [input]
   (->> (parse input)
-       (map filtered)
-       (filter #(<= (first %) (last %) (second %)))
+       rest
+       hit
+       (filter #{\#})
        count))
 
-(defn day02b [input]
-  (->> (parse input)
-       (map prep)
-       (filter #(and (contains? (first %) (last %)) 
-                     (= 2 (count (first %)))
-                     ))
-       count
+
+(defn positions2 [length width right]
+  (->> (range)
+       (take (inc length))
+       (map (partial * right))
+       (map #(mod % width))))
+
+(defn hit2 [field [right down]]
+  (->> (positions2 (count field) (count (first field)) right)
+       (map #(nth %1 %2) (take-nth down field))
+       ;
        ))
+
+(defn day03b [filename inputs]
+  (->> inputs
+       (map #(hit2 (parse filename) %))
+       (map #(filter #{\#} %))
+       (map count)
+       (apply *)
+       ))
+
 
