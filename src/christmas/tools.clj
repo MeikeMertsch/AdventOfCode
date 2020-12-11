@@ -31,6 +31,9 @@
 (defn parse-int [string]
 	(Integer/parseInt string))
 
+(defn map-kv [f coll]
+  (reduce-kv (fn [m k v] (assoc m k (f v))) (empty coll) coll))
+
 
 ;(expect "" )
 ;(expect "" (map (partial prepare 16) (map (partial str "0") (range 1 10))))
