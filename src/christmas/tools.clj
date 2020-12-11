@@ -34,6 +34,8 @@
 (defn map-kv [f coll]
   (reduce-kv (fn [m k v] (assoc m k (f v))) (empty coll) coll))
 
+(defn llast[x]
+  (last (last x)))
 
 ;(expect "" )
 ;(expect "" (map (partial prepare 16) (map (partial str "0") (range 1 10))))
