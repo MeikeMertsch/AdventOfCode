@@ -37,6 +37,13 @@
 (defn llast[x]
   (last (last x)))
 
+(defn abs [n] 
+  (max n (- n)))
+
+(defn manhatten [coords] 
+  (->> (map abs coords)
+       (apply +)))
+
 ;(expect "" )
 ;(expect "" (map (partial prepare 16) (map (partial str "0") (range 1 10))))
 ;(expect "" (map (partial prepare 16) (range 10 26)))
