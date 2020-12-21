@@ -43,9 +43,10 @@
   (->> (parsefile input)
        (iterate tick)
        (map #(count (filter true? (vals %))))
-       ;(take 10)
        (partition 2 1)
        (drop-while #(not= (first %) (last %)))
        (ffirst)
        ))
 
+(defn visible[game coords]
+  )
