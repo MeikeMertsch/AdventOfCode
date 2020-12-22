@@ -12,6 +12,6 @@
 (expect 20899048083289 (chr/day20 filename))
 (expect 15405893262491 (chr/day20 realfilename))
 
-(pp/pprint (chr/day20b filename))
+;(pp/pprint (chr/day20b filename))
 ;(expect 1 (chr/day20b realfilename))
 )

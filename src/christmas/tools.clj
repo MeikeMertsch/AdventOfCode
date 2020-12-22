@@ -38,6 +38,9 @@
 (defn llast [x]
   (last (last x)))
 
+(defn flast [x]
+  (first (last x)))
+
 (defn lfirst [x]
   (last (first x)))
 

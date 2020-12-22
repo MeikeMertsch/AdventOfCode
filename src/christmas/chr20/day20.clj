@@ -118,38 +118,69 @@
        (t/find-first #(contains? (set (:effective-edges (last %))) eff-edge))
        (last)))
 
-(defn next-tile [information eff-edge]
+(defn next-tile [information side eff-edge]
   (->> (find-tile-by-edge information eff-edge)
-       (orientate-tile eff-edge 2)))
+       (orientate-tile eff-edge side)))
 
 (defn add-tile[information tile]
   (-> (update information :tiles #(dissoc % (:number tile)))
-      (update :card #(t/add-to-last % tile))))
+      (update :card t/add-to-last tile)))
+
+(defn find-next-horizontal-eff-edge [information]
+  (->> (:card information)
+       (t/flast)
+       (:effective-edges)
+       (second)))
+
+(defn add-tile-h [information tile]
+  (-> (update information :tiles #(dissoc % (:number tile)))
+      (update :card conj [tile])))
+
+(defn add-next-vertical [information]
+  (->> (find-next-horizontal-eff-edge information)
+       (next-tile information 3)
+       (add-tile-h information)))
+
+(defn add-next-horizontal [information]
+  (->> (find-next-eff-edge information)
+       (next-tile information 2)
+       (add-tile information)))
+
+(defn row-full? [information]
+  (->> (:card information)
+       (last)
+       (count)
+       (#(* % %))
+       (= (:count information))
+       ))
+
 
 (defn add-to-map [information]
-  (->> (find-next-eff-edge information)
-       (next-tile information)
-       (add-tile information)))
+  (if (row-full? information)
+       (add-next-vertical information)
+       (add-next-horizontal information)
+    ))
 
 (defn build-map [information]
   (->> (orientate-top-left-corner (first (:corners information)) information)
        (initialize-with-corner information)
        (iterate add-to-map)
-       (#(nth % 2))))
+       (#(nth % (dec (:count information))))))
 
 (defn day20b [input]
   (->> (tiles input)
-       (hash-map :tiles)
+       (#(hash-map :count (count %) :tiles %))
        (#(assoc % :frequs (edge-frequencies (vals (:tiles %)))))
        (#(assoc % :corners (find-corners (:frequs %) (:tiles %))))
        (build-map)
        ;:tiles
        ;keys
-       ;(:card)
+       (:card)
        ;(first)
        ;(map :tile)
-       ;(apply map #(str/join " " %&))
-       ;;(pp/pprint)
+       (map #(map :tile %))
+       (map (partial apply map #(str/join " " %&)))
+       ;(pp/pprint)
        ;(map #(str/join " " %))
        ;first
        ;(#(find-corners (edge-frequencies %) %))
