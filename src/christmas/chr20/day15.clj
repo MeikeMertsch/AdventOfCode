@@ -39,7 +39,7 @@
 (defn speak [numbers]
   (-> (assoc numbers :last (next-number numbers))
       (update :last-occurence assoc (:last numbers) (:round numbers))
-     (update :round inc) ))
+      (update :round inc)))
 
 (defn day15b [input]
   (->> (parse input)
