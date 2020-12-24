@@ -44,6 +44,9 @@
 (defn lfirst [x]
   (last (first x)))
 
+(defn second-last [x]
+  (last (butlast x)))
+
 (defn abs [n]
   (max n (- n)))
 
