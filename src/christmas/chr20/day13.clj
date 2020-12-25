@@ -27,25 +27,40 @@
        (first)
        (apply *)))
 
+(defn parse-bus [idx bus]
+  (if (= "x" bus)
+    nil
+    [idx (bigint (t/parse-int bus))]))
+
 (defn parse [filename]
   (->> (slurp filename)
        (str/split-lines)
-       (rest)
-       (first)
+       (last)
        (#(str/split % #","))
-       (map #(vector %2 %1) (range))
-       (remove #(= "x" (first %)))
-       (map #(update % 0 t/parse-int))
-       (sort-by first >)))
+       (map-indexed parse-bus)
+       (filter some?)
+       (sort-by last >)
+       (#(conj (sort-by first (rest %)) (first %))))) ; <---- just because that is what I used in my example
 
-(defn validate[[[biggest offset] &others]]
-  (->> (map #(+ offset (* biggest %)) (range))
-  (take 1000)
-  ))
+(defn init [count-offset [[offset bus-nr] & others]]
+  (->> (quot count-offset bus-nr)
+       (* bus-nr)
+       (#(- % offset))
+       (hash-map :busses others :multiplier bus-nr :start)))
 
-(defn day13b [input]
+(defn new-start [start multiplier [offset bus-nr]]
+  (->> (iterate (partial + multiplier) start)
+       (t/find-first #(= 0 (mod (+ % offset) bus-nr)))))
+
+(defn use-bus [{:keys [busses multiplier start] :as mapping}]
+  (-> (update mapping :busses rest)
+      (update :multiplier * (t/lfirst busses))
+      (update :start new-start multiplier (first busses))))
+
+(defn day13b [input offset]
   (->> (parse input)
-       (validate)
-       ))
-
+       (init offset)
+       (iterate use-bus)
+       (t/find-first #(empty? (:busses %)))
+       (:start)))
 

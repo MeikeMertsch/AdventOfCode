@@ -4,9 +4,7 @@
             [clojure.set :as s]))
 
 (defn parse-piece [piece]
-  (->> (str/split piece #" ")
-       ;(#(case %           ["a"] "a"            ["b"] "b"           %))
-       ))
+  (->> (str/split piece #" ")))
 
 (defn possibilities [text]
   (->> (str/split text #"( \| )")
@@ -27,35 +25,24 @@
        (first)))
 
 (defn pos [identified result key]
-  
+
   (->> (map #(map (partial apply str %) (identified key)) result)
-       (apply concat)
-       ))
+       (apply concat)))
 
-(defn decipher[identified value]
-  (->> (reduce (partial pos identified) [""] value)
-  )
-  )
+(defn decipher [identified value]
+  (->> (reduce (partial pos identified) [""] value)))
 
-(defn possies[values identified]
+(defn possies [values identified]
   (->> (map (partial decipher identified) values)
-       (apply concat)
-      )
-)
+       (apply concat)))
 
 (defn tick-with [[key value] rules]
   (-> (update rules :rules #(dissoc % key))
-      (update :identified #(assoc % key (possies value (:identified rules))))
-  ))
-
+      (update :identified #(assoc % key (possies value (:identified rules))))))
 
 (defn tick-rule [rules]
   (-> (find-next rules)
-      (tick-with rules)
-
-       ;(remove #(re-find #"\d+" (last %)))
-       ;(assoc rules :current)
-      ))
+      (tick-with rules)))
 
 (defn find-a-b [rules]
   (->> (filter #(or (= [["a"]] (last %))
@@ -72,7 +59,6 @@
        (first)
        (:identified)
        (#(% "0"))
-       ;(#(nth % 1))
        ))
 
 (defn parse-parts [[rules messages]]
@@ -81,8 +67,7 @@
                (apply concat)
                (apply hash-map)
                (tick-rules)
-               (set)
-               )
+               (set))
    :messages (str/split-lines messages)})
 
 (defn parsefile [filename]
@@ -96,8 +81,13 @@
 
 (defn day19 [input]
   (->> (parsefile input)
-       
        (#(filter (partial validate (:rules %)) (:messages %)))
-       (count)
+       (count)))
+
+(defn day19b [input]
+  (->> (parsefile input)
+       (:rules)
        
+       ;(#(filter (partial validate (:rules %)) (:messages %)))
+       (count)
        ))
