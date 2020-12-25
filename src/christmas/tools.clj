@@ -32,6 +32,9 @@
   ([string]	(parse-int string 10))
   ([string base]	(Integer/parseInt string base)))
 
+(defn sqrt[number]
+  (Math/sqrt number))
+
 (defn map-kv [f coll]
   (reduce-kv (fn [m k v] (assoc m k (f v))) (empty coll) coll))
 

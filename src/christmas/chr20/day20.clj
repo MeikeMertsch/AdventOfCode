@@ -2,8 +2,7 @@
   (:require [clojure.string :as str]
             [christmas.tools :as t]
             [clojure.set :as s]
-            [clojure.pprint :as pp]
-            ))
+            [clojure.pprint :as pp]))
 
 (defn tile-number [title]
   (t/parse-int (re-find #"\d+" title)))
@@ -42,7 +41,7 @@
        (apply concat)
        (apply hash-map)))
 
-(defn edge-frequencies [tiles]
+(defn edge-frequencies-old [tiles]
   (->> (map :effective-edges tiles)
        (flatten)
        (frequencies)))
@@ -60,8 +59,10 @@
 
 (defn day20 [input]
   (->> (tiles input)
-       (#(find-corners (edge-frequencies (vals %)) %))
+       (#(find-corners (edge-frequencies-old (vals %)) %))
        (apply *)))
+
+
 
 (defn inner-string [string]
   (subs string 1 9))
@@ -72,116 +73,177 @@
        (butlast)
        (map inner-string)))
 
-(defn orientate-top-left-corner [corner {:keys [frequs tiles]}]
-  (->> (tiles corner)
-       (:tile)
-       (reverse)
-       (dfn-tile corner)))
 
-(defn initialize-with-corner [information first-corner]
-  (-> (assoc information :card [[first-corner]])
-      (update :tiles #(dissoc % (:number first-corner)))))
 
-(defn find-next-eff-edge [information]
-  (->> (:card information)
-       (t/llast)
-       (:effective-edges)
-       (first)))
 
-(defn turn-right [tile]
-  (->> (:tile tile)
-       (reverse)
-       (apply map vector)
-       (map (partial apply str))
-       (dfn-tile (:number tile))))
 
-(defn mirror [{:keys [tile number]}]
-  (->> (reverse tile)
-       (dfn-tile number)))
 
-(defn mirror-if-needed [eff-edge tile]
-  (if ((set (:effective-edges tile)) eff-edge)
-    (mirror tile)
-    tile))
+(defn edge-frequencies [tiles]
+  (->> (mapcat :effective-edges (vals tiles))
+       (frequencies)
+       (filter #(= 2 (last %)))
+       (map first)
+       (set)))
 
-(defn orientate-tile [eff-edge pos tile]
-  (->> (:effective-edges tile)
-       (take-while #(not= eff-edge %))
+(defn corner? [inner-edges {:keys [effective-edges]}]
+  (->> (filter inner-edges effective-edges)
        (count)
-       (#(- % pos))
-       (#(if (neg? %) (+ 4 %) %))
-       (nth (iterate turn-right tile))
-       (mirror-if-needed eff-edge)))
+       (= 2)))
 
-(defn find-tile-by-edge [information eff-edge]
-  (->> (:tiles information)
-       (t/find-first #(contains? (set (:effective-edges (last %))) eff-edge))
+(defn determine-corners [inner-edges tiles]
+  (->> (filter (partial corner? inner-edges) (vals tiles))
+       (map :number)))
+
+(defn turn [tile]
+  (->> (reverse tile)
+       (apply map vector)
+       (map (partial apply str))))
+
+(defn mirror-new [tile]
+  (reverse tile))
+
+(defn turns [tile]
+  (->> (:tile tile)
+       (iterate turn)
+       (take 4)
+       (mapcat #(vector % (mirror-new %)))
+       (map (partial dfn-tile (:number tile)))))
+
+(defn correcly-oriented? [inner-edges tile]
+  (->> (:effective-edges tile)
+       (take 2)
+       (every? inner-edges)))
+
+(defn add-tile-to-map [information tile]
+  (-> (update information :card conj tile)
+      (update :tiles dissoc (:number tile))))
+
+(defn prefill-first-corner [{:keys [corners tiles inner-edges] :as information}]
+  (->> (first corners)
+       (tiles)
+       (turns)
+       (t/find-first (partial correcly-oriented? inner-edges))
+       (add-tile-to-map (assoc information :card []))))
+
+(defn init [tiles]
+  (-> (edge-frequencies tiles)
+      (#(hash-map :edge-length (int (t/sqrt (count tiles)))
+                  :tiles tiles
+                  :inner-edges %
+                  :corners (determine-corners % tiles)))))
+
+(defn next-horizontal? [{:keys [card inner-edges edge-length]}]
+  (-> (count card)
+      (mod edge-length)
+      (= 0)))
+
+(defn has-edge? [effective-edge tile]
+  (->> (:effective-edges tile)
+       (set)
+       (#(% effective-edge))))
+
+(defn fits? [last-tile [l n] tile]
+  (->> (nth (:edges last-tile) l)
+       (= (nth (:edges tile) n))))
+
+(defn find-tile [func dirs {:keys [tiles card] :as information}]
+  (->> (func card)
+       (:effective-edges)
+       (#(nth % (first dirs)))
+       (#(t/find-first (partial has-edge? %) (vals tiles)))))
+
+(defn next-tile [func dirs {:keys [tiles card] :as information}]
+  (->> (find-tile func dirs information)
+       (turns)
+       (t/find-first (partial fits? (func card) dirs))
+       (add-tile-to-map information)))
+
+(defn finish-row [{:keys [edge-length] :as information}]
+  (->> (iterate (partial next-tile last [0 2]) information)
+       (take edge-length)
        (last)))
 
-(defn next-tile [information side eff-edge]
-  (->> (find-tile-by-edge information eff-edge)
-       (orientate-tile eff-edge side)))
+(defn start-next-row [{:keys [card edge-length] :as information}]
+  (->> (next-tile #(nth % (- (count card) edge-length)) [1 3] information)))
 
-(defn add-tile[information tile]
-  (-> (update information :tiles #(dissoc % (:number tile)))
-      (update :card t/add-to-last tile)))
+(defn build-row [information]
+  (->> (start-next-row information)
+       (finish-row)))
 
-(defn find-next-horizontal-eff-edge [information]
+
+(defn build-map [{:keys [card tiles edge-length] :as information}]
+  (->> (finish-row information)
+       (iterate build-row)
+       (t/find-first #(empty? (:tiles %)))))
+
+(def monster? {\# true \. false})
+
+(defn parse-water [row-idx column-idx char]
+  [[row-idx column-idx] (monster? char)])
+
+(defn parse-row [row-idx row-line]
+  (map-indexed (partial parse-water row-idx) row-line))
+
+(defn reveal-pic [information]
   (->> (:card information)
-       (t/flast)
-       (:effective-edges)
-       (second)))
+       (map unpack-inner-tile)
+       (partition (:edge-length information))
+       (map #(apply map vector %))
+       (map (partial map (partial apply str)))
+       (flatten)
+       (map-indexed parse-row)
+       (apply concat)
+       (filter last)
+       (map first)
+       (set)))
 
-(defn add-tile-h [information tile]
-  (-> (update information :tiles #(dissoc % (:number tile)))
-      (update :card conj [tile])))
+(def moster-code ["                  # "
+                  "#    ##    ##    ###"
+                  " #  #  #  #  #  #   "])
 
-(defn add-next-vertical [information]
-  (->> (find-next-horizontal-eff-edge information)
-       (next-tile information 3)
-       (add-tile-h information)))
+(defn parse-monster []
+  (->> (map-indexed parse-row moster-code)
+       (apply concat)
+       (filter last)
+       (map first)
+       (map (fn [[x y]] (vector x (- y 18))))))
 
-(defn add-next-horizontal [information]
-  (->> (find-next-eff-edge information)
-       (next-tile information 2)
-       (add-tile information)))
+(def monster (parse-monster))
 
-(defn row-full? [information]
-  (->> (:card information)
-       (last)
-       (count)
-       (#(* % %))
-       (= (:count information))
+(defn turn-monster [monster]
+  (map (fn [[x y]] (vector y (- x))) monster))
+
+(defn mirror-monster [monster]
+  (map (fn [[x y]] (vector (- x) y)) monster))
+
+(def herd
+  (->> (iterate turn-monster monster)
+       (take 4)
+       (mapcat #(vector % (mirror-monster %)))))
+
+(defn apply-monster [monster [wx wy]]
+  (map (fn [[mx my]] (vector (+ wx mx) (+ wy my))) monster))
+
+(defn search-monster [waters monster]
+  (->> (map (partial apply-monster monster) waters)
+       (filter (partial every? waters))
+       (apply concat)
        ))
 
-
-(defn add-to-map [information]
-  (if (row-full? information)
-       (add-next-vertical information)
-       (add-next-horizontal information)
-    ))
-
-(defn build-map [information]
-  (->> (orientate-top-left-corner (first (:corners information)) information)
-       (initialize-with-corner information)
-       (iterate add-to-map)
-       (#(nth % (dec (:count information))))))
+(defn water-roughness [waters]
+  (->> (mapcat (partial search-monster waters) herd)
+      (reduce disj waters)
+       count
+  )
+       )
 
 (defn day20b [input]
   (->> (tiles input)
-       (#(hash-map :count (count %) :tiles %))
-       (#(assoc % :frequs (edge-frequencies (vals (:tiles %)))))
-       (#(assoc % :corners (find-corners (:frequs %) (:tiles %))))
+       (init)
+       (prefill-first-corner)
        (build-map)
-       ;:tiles
-       ;keys
-       (:card)
-       ;(first)
-       ;(map :tile)
-       (map #(map :tile %))
-       (map (partial apply map #(str/join " " %&)))
-       ;(pp/pprint)
-       ;(map #(str/join " " %))
-       ;first
-       ;(#(find-corners (edge-frequencies %) %))
-       ))
+       (reveal-pic)
+       (water-roughness)))
+
+
+
