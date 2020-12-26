@@ -25,13 +25,13 @@
 (defn find-destination [{:keys [current triplet cups] :as game}]
   (->> (iterate #(wrapped-dec cups %) current)
        (rest)
-       (t/find-first #(nil? ((set triplet) %)))
+       (t/find-first #(not ((set triplet) %)))
        (assoc game :destination)))
 
 (defn change-ring [{:keys [current ring triplet destination] :as game}]
   (-> (update game :ring assoc destination (first triplet))
-      (update :ring assoc current (ring (last triplet)))
-      (update :ring assoc (last triplet) (ring destination))))
+      (update :ring assoc current (ring (last triplet) (last triplet)))
+      (update :ring assoc (last triplet) (ring destination destination))))
 
 (defn find-next [{:keys [current ring] :as game}]
   (assoc game :current (ring current)))
@@ -50,25 +50,30 @@
        (apply str)
        (t/parse-int)))
 
-(defn mark [game cup]
-  (if (= cup (:current game)) (str cup) cup))
-
-(defn output-b [game]
-  (->> (:ring game)
-       (#(iterate % 1))
-       (take (:cups game))
-       (map #(mark game %))
-       ))
-
 (defn day23 [input moves]
   (->> (parse input 9)
        (iterate play)
-       (#(nth % moves));(inc moves)))
+       (#(nth % moves))
        (output)))
 
-(defn day23b [input moves cups]
-  (->> (parse input cups)
-       (iterate play)
-       (take 100);(inc moves)))
-       (map output-b)))
+(defn init [cups input]
+  (-> (iterate #(conj % (inc (count %))) input)
+      (nth  (- cups (count input)))
+      (conj (first input))
+      (#(partition 2 1 %))
+      (#(apply concat %))
+      (#(apply hash-map %))))
 
+
+(defn map-init [cups input]
+  (->> (init cups input)
+       (hash-map :cups cups :current (first input) :ring)))
+
+(defn day23b [input moves cups]
+  (->> (map-init cups input)
+       (iterate play)
+       (take moves)
+       last
+       :ring
+       (#(vector (% 1) (% (% 1))))
+       (apply *)))

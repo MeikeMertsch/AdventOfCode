@@ -5,7 +5,7 @@
             [clojure.pprint :as pp]
             [clojure.string :as str]))
 (comment
-(def real-input [5 8 9 1 7 4 2 6 3])
+  (def real-input [5 8 9 1 7 4 2 6 3])
 (def input [3 8 9 1 2 5 4 6 7])
 
 (expect 67384529 (chr/day23 input 100))
@@ -16,6 +16,7 @@
 
 (expect 8 (:destination (chr/find-destination (assoc game :triplet [2 1 9]))))
 
-;(expect 149245887792 (chr/day23b input 10000000 1000000))
-;(expect 67384529 (chr/day23b input 100 9))
-(pp/pprint (chr/day23b real-input 10 100)))
+;(pp/pprint (chr/day23b input 10000000 1000000))
+(expect 149245887792 (chr/day23b input 10000000 1000000))
+(expect 2911418906 (chr/day23b real-input 10000000 1000000))
+)
