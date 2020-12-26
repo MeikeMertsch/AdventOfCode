@@ -63,6 +63,9 @@
 (defn add-to-last [vec-of-vecs new-value]
   (conj (pop vec-of-vecs) (conj (peek vec-of-vecs) new-value)))
 
+(defn update-last [vec-of-vecs update-func]
+  (conj (pop vec-of-vecs) (conj (pop (peek vec-of-vecs)) (update-func (peek (peek vec-of-vecs))))))
+
 
 ;(expect "" )
 ;(expect "" (map (partial prepare 16) (map (partial str "0") (range 1 10))))
