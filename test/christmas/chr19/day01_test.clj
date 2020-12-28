@@ -1,24 +1,14 @@
-(ns christmas.chr17.day01-test
-  (:require [christmas.chr17.day01 :as chr]
+(ns christmas.chr19.day01-test
+  (:require [christmas.chr19.day01 :as chr]
   		  	[expectations :refer :all]
             [clojure.string :as str]))
-(comment
-(def file (slurp "resources/chr17/day01real"))
 
-(expect 3 (chr/exercise01 "1122"))
-(expect 4 (chr/exercise01 "1111"))
-(expect 0 (chr/exercise01 "1234"))
-(expect 9 (chr/exercise01 "91212129"))
+(def realfile "resources/chr19/day01real")
+(def file "resources/chr19/day01")
 
-(expect 1175 (chr/exercise01 file))
+(expect (+ 2 2 654 33583) (chr/day01 file))
+(expect 3352674 (chr/day01 realfile))
 
-;-----------------------
 
-(expect 6 (chr/exercise01b "1212"))
-(expect 0 (chr/exercise01b "1221"))
-(expect 4 (chr/exercise01b "123425"))
-(expect 12 (chr/exercise01b "123123"))
-(expect 4 (chr/exercise01b "12131415"))
-
-(expect 1166 (chr/exercise01b file))
-)
+(expect (+ 2 2 966 50346) (chr/day01b file))
+(expect 5026151 (chr/day01b realfile))
