@@ -1,6 +1,7 @@
 (ns christmas.chr20.day11-test
   (:require [christmas.chr20.day11 :as chr]
             [expectations :refer :all]
+            [clojure.pprint :as pp]
             [clojure.string :as str]))
 
 (comment
@@ -12,6 +13,10 @@
 ;(expect 37 (chr/day11 realfilename))
 (expect [[1 4] [1 5] [1 6] [2 4] [2 6] [3 4] [3 5] [3 6]] (chr/neighbor [2 5]))
 (expect [[2 5] true] (chr/tick-space empty-game [2 5]))
-  
-(expect [[1 1] [1 2] [1 3] [3 1] [3 2] [3 3] [2 0] [2 4]] (chr/visible empty-game [2 2]))
+
+
+(expect 26 (chr/day11b filename))
+;(expect 2085 (chr/day11b realfilename))
+(expect #{[1 1] [1 2] [1 3] [3 1] [3 2] [3 3] [2 0] [2 4]} (set (chr/visible (map first empty-game) [9 9] [2 2])))
+
 )
