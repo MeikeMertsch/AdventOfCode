@@ -3,7 +3,8 @@
   		  	[expectations :refer :all]
             [clojure.string :as str]))
 
-(def realfile "resources/chr19/day01real")
+(comment
+  (def realfile "resources/chr19/day01real")
 (def file "resources/chr19/day01")
 
 (expect (+ 2 2 654 33583) (chr/day01 file))
@@ -11,4 +12,4 @@
 
 
 (expect (+ 2 2 966 50346) (chr/day01b file))
-(expect 5026151 (chr/day01b realfile))
+(expect 5026151 (chr/day01b realfile)))
