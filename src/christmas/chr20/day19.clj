@@ -84,6 +84,7 @@
       (count)))
 
 (defn build-11 [remaining-rules repeats]
+  ;also-> #"a (a (a (ab) ?b) ?b) ?b"
   (apply str (concat (repeat repeats (remaining-rules "42"))
                      (repeat repeats (remaining-rules "31")))))
 
